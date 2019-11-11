@@ -1,41 +1,45 @@
-const moongose = require('mongoose');
-const uniqueValidator = require ('mongoose-unique-validator');
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
-let Schema = moongose.Schema;
+
+let Schema = mongoose.Schema;
+
 let usuarioSchema = new Schema({
-    nombre: { 
+    nombre: {
         type: String,
-        required:  [true, 'Porfavor ingresa el nombre del usuario']
-    }, 
+        required: [true, 'Ingrese el nombre']
+    },
     email: {
-        type: String, 
+        type: String,
         unique: true,
-        required:  [true, 'Porfavor ingresa el email']
-    }, 
+        required: [true, 'Ingrese el email']
+    },
     password: {
         type: String,
-        required:  [true, 'Porfavor ingresa una contraseña']
+        required: [true, 'Ingrese la contraseña']
     },
     role: {
         type: String,
         default: 'USER_ROLE'
     },
-    img: { 
+    img: {
         type: String,
-        required:  [true, 'Porfavor ingresa la imagen']
-    }, 
+        required: [true, 'Ingrese la imagen']
+    },
     estado: {
-        type: Boolean, 
+        type: Boolean,
         default: true
-    }, 
+    },
     google: {
-        type: Boolean, 
-        default: false
+        type: Boolean,
+        default: true
     }
 });
 
+
 usuarioSchema.plugin(uniqueValidator, {
-    menssage: '{PATH} debe ser unico y diferente'  //PARH marca el camiono o el campo  
+    message: '{PATH} Debe ser unico y diferente'
 });
 
-module.exports = moongose.model('Usario', usuarioSchema); // Se rea la coleccion o la tabla en la bd
+
+module.exports = mongoose.model('Usuario', usuarioSchema);

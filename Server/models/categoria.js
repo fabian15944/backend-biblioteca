@@ -1,26 +1,30 @@
-const moongose = require('mongoose');
-const uniqueValidator = require ('mongoose-unique-validator');
-const Categoria = require('./categoria')
-let Schema = moongose.Schema;
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const Usuario = require('./usuario');
+
+let Schema = mongoose.Schema;
+
 let categoriaSchema = new Schema({
-    nombre: { 
-        type: String, 
-        unique: true,
-        required:  [true, 'Porfavor ingresa el nombre de la categoria']
-    }, 
-    usuario: {
-        type: Schema.ObjectId, ref: 'Usuario',
-        required:  [true, 'Porfavor ingresa el ID del usuario']
-        
-    },
-    st:{
+    nombre: {
         type: String,
-        default: true
+        unique: true,
+        required: [true, 'Ingrese el nombre de la categoria']
+    },
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: [true, 'Ingrese el usuario']
+    },
+    estado: {
+        type: String,
+        default: true,
+        required: [true, 'Ingrese el estado']
     }
 });
 
 categoriaSchema.plugin(uniqueValidator, {
-    menssage: '{PATH} debe ser unico y diferente'  //PARH marca el camiono o el campo  
+    message: '{PATH} Debe ser unico y diferente'
 });
 
-module.exports = moongose.model('Categoria', categoriaSchema); // Se rea la coleccion o la tabla en la bd
+
+module.exports = mongoose.model('Categoria', categoriaSchema);
