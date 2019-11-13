@@ -14,12 +14,12 @@ app.use(bodyParser.json());
 app.use(require('./routes/index'));
 
 //Conexion a la base de datos
-moongose.connect(process.env.URLDB, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true, 
-    useCreateIndex: true 
-} ,(err, resp) => {
-    if(err)throw err;
+moongose.connect(process.env.URLDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+}, (err, resp) => {
+    if (err) throw err;
     console.log('Base de datos oline');
 });
 //Puerto de escucha de la pliccion
