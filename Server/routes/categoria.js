@@ -1,10 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+const { verificatoken } = require('../middlewares/autentificacion');
 const Categoria = require('../models/categoria');
 const app = express();
 
-app.post('/categoria', (req, res) => {
+app.post('/categoria', [verificatoken], (req, res) => {
     let body = req.body;
     let categoria = new Categoria({
         nombre: body.nombre,
@@ -25,9 +26,9 @@ app.post('/categoria', (req, res) => {
     });
 });
 
-app.put('/categoria/:id', (req, res) => {
-    let id = req.params.id;
-    let body = _.pick(req.body, ['nombre', 'usuario']);
+app.put('/categoria', [verificatoken], (req, res) => {
+    let id = req.body.id;
+    let body = _.pick(req.body, ['id', 'nombre', 'usuario']);
 
     Categoria.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, catDB) => {
         if (err) {
@@ -43,8 +44,8 @@ app.put('/categoria/:id', (req, res) => {
     });
 });
 
-app.delete('/categoria/:id', (req, res) => {
-    let id = req.params.id;
+app.delete('/categoria', [verificatoken], (req, res) => {
+    let id = req.body.id;
     Categoria.findByIdAndUpdate(id, { estado: false }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
         if (err) {
             return res.status(400).json({
@@ -61,7 +62,7 @@ app.delete('/categoria/:id', (req, res) => {
 
 });
 
-app.get('/categoria', (req, res) => {
+app.get('/categoria', [verificatoken], (req, res) => {
     Categoria.find({ estado: true })
         .exec((err, categorias) => {
             if (err) {

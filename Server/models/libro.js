@@ -4,17 +4,15 @@ const Usuario = require('./usuario');
 const Categoria = require('./categoria');
 
 let Schema = mongoose.Schema;
+// cambie productos por libros
 
-let productoSchema = new Schema({
+let libroSchema = new Schema({
     nombre: {
         type: String,
         unique: true,
-        required: [true, 'Porfavor ingresa el nombre del producto']
+        required: [true, 'Porfavor ingresa el nombre del libro']
     },
-    precioUni: {
-        type: Number,
-        required: [true, 'Porfavor ingrese el precio unitario']
-    },
+
     categoria: {
         type: Schema.Types.ObjectId,
         ref: 'Categoria',
@@ -25,6 +23,11 @@ let productoSchema = new Schema({
         type: Boolean,
         default: true
     },
+    img: {
+        type: String,
+
+        // required: [true, 'Ingrese la imagen']
+    },
     usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
@@ -33,9 +36,9 @@ let productoSchema = new Schema({
 
 });
 
-productoSchema.plugin(uniqueValidator, {
+libroSchema.plugin(uniqueValidator, {
     message: '{PATH} Debe ser unico y diferente'
 });
 
 
-module.exports = mongoose.model('Producto', productoSchema);
+module.exports = mongoose.model('Libro', libroSchema);

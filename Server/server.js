@@ -4,6 +4,20 @@ const moongose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
+// Habilita CORS
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization, token'
+    );
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+    );
+    next();
+});
+
 //Parse aplicacion /x-www-from-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -20,7 +34,7 @@ moongose.connect(process.env.URLDB, {
     useCreateIndex: true
 }, (err, resp) => {
     if (err) throw err;
-    console.log('Base de datos oline');
+    console.log('Base de datos de Biblioteca');
 });
 //Puerto de escucha de la pliccion
 app.listen(process.env.PORT, () => {

@@ -1,20 +1,20 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
-const Producto = require('../models/producto');
+const { verificatoken } = require('../middlewares/autentificacion');
+const Libro = require('../models/libro');
 const app = express();
 
-app.post('/producto', (req, res) => {
+app.post('/libro', [verificatoken], (req, res) => {
     let body = req.body;
-    let producto = new Producto({
+    let libro = new Libro({
         nombre: body.nombre,
-        precioUni: body.precioUni,
         categoria: body.categoria,
-        disponible: body.disponible,
+        img: body.img,
         usuario: body.usuario
     });
 
-    producto.save((err, proDB) => {
+    libro.save((err, proDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -29,11 +29,11 @@ app.post('/producto', (req, res) => {
     });
 });
 
-app.put('/producto/:id', (req, res) => {
-    let id = req.params.id;
-    let body = _.pick(req.body, ['nombre', 'precioUni', 'categoria', 'disponibilidad', 'usuario']);
+app.put('/libro', [verificatoken], (req, res) => {
+    let id = req.body.id;
+    let body = _.pick(req.body, ['id', 'nombre', 'categoria', 'img', 'usuario']);
 
-    Producto.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, prodDB) => {
+    Libro.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, prodDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -47,28 +47,28 @@ app.put('/producto/:id', (req, res) => {
     });
 });
 
-app.get('/producto', (req, res) => {
-    Producto.find({ disponible: true })
-        .exec((err, productos) => {
+app.get('/libro', [verificatoken], (req, res) => {
+    Libro.find({ disponible: true })
+        .exec((err, Libro) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
                     err
-                })
+                });
             }
             return res.status(200).json({
                 ok: true,
-                count: productos.length,
-                productos
+                count: Libro.length,
+                Libro
             });
 
         });
 });
 
-app.delete('/producto/:id', (req, res) => {
-    let id = req.params.id;
+app.delete('/libro', [verificatoken], (req, res) => {
+    let id = req.body.id;
 
-    Producto.findByIdAndUpdate(id, { disponible: false }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
+    Libro.findByIdAndUpdate(id, { disponible: false }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
         if (err) {
             return res.status(400).json({
                 ok: false,

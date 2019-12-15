@@ -18,7 +18,7 @@ let categoriaSchema = new Schema({
     estado: {
         type: String,
         default: true,
-        required: [true, 'Ingrese el estado']
+
     }
 });
 

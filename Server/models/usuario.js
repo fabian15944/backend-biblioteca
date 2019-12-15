@@ -18,22 +18,16 @@ let usuarioSchema = new Schema({
         type: String,
         required: [true, 'Ingrese la contraseña']
     },
-    role: {
-        type: String,
-        default: 'USER_ROLE'
-    },
+
     img: {
         type: String,
-        required: [true, 'Ingrese la imagen']
+
     },
     estado: {
         type: Boolean,
         default: true
     },
-    google: {
-        type: Boolean,
-        default: true
-    }
+
 });
 
 
