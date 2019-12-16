@@ -8,7 +8,7 @@ let urlDB;
 if (process.env.NODE_ENV === 'dev') { //Son todas las funciones y procesos que tienen el amibiente del desarrollo que es local 
     urlDB = 'mongodb://localhost:27017/Biblioteca';
 } else { //Ambiente de produccion nube = Heroku
-    urlDB = 'mongodb+srv://admin:ortiz10@cluster0-uw13s.mongodb.net/test?retryWrites=true&w=majority/Biblioteca';
+    urlDB = 'mongodb+srv://admin:ortiz10@cluster0-lqiug.mongodb.net/Biblioteca';
 }
 
 //Tenemos dos ambientes el de produccion y el de desarrollo 
